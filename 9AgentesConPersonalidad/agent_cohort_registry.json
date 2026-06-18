@@ -1,0 +1,168 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-06-09",
+  "description": "Canonical registry for EDGAR multi-agent cohort. Includes 9 analyst agents plus 1 orchestrator.",
+  "defaultLanguage": "es",
+  "orchestrator": {
+    "agentId": "orchestrator_edgar_cohort",
+    "displayName": "Orquestador EDGAR Cohort",
+    "role": "orchestrator",
+    "status": "active",
+    "foundryAgent": {
+      "name": "TODO_SET_IN_FOUNDRY",
+      "version": "latest"
+    },
+    "capabilities": [
+      "dispatch_parallel",
+      "consensus_matrix",
+      "divergence_matrix",
+      "unique_insights_matrix",
+      "multi_level_synthesis"
+    ]
+  },
+  "analystAgents": [
+    {
+      "agentId": "cathie_wood",
+      "displayName": "Cathie Wood",
+      "role": "analyst",
+      "personaGroup": "innovation_growth",
+      "status": "active",
+      "provisional": false,
+      "sourcePromptFile": "9AgentesConPersonalidad/cathie_wood_agent.md",
+      "foundryAgent": {
+        "name": "TODO_SET_IN_FOUNDRY",
+        "version": "latest"
+      }
+    },
+    {
+      "agentId": "charlie_munger",
+      "displayName": "Charlie Munger",
+      "role": "analyst",
+      "personaGroup": "quality_latticework",
+      "status": "active",
+      "provisional": false,
+      "sourcePromptFile": "9AgentesConPersonalidad/charlie_munger_agent.md",
+      "foundryAgent": {
+        "name": "TODO_SET_IN_FOUNDRY",
+        "version": "latest"
+      }
+    },
+    {
+      "agentId": "charlie_munger2",
+      "displayName": "Charlie Munger 2",
+      "role": "analyst",
+      "personaGroup": "quality_latticework",
+      "status": "active",
+      "provisional": true,
+      "sourcePromptFile": "9AgentesConPersonalidad/charlie_munger2_agent.md",
+      "foundryAgent": {
+        "name": "TODO_SET_IN_FOUNDRY",
+        "version": "latest"
+      }
+    },
+    {
+      "agentId": "howard_marks",
+      "displayName": "Howard Marks",
+      "role": "analyst",
+      "personaGroup": "credit_cycles",
+      "status": "active",
+      "provisional": false,
+      "sourcePromptFile": "9AgentesConPersonalidad/howard_marks_agent.md",
+      "foundryAgent": {
+        "name": "TODO_SET_IN_FOUNDRY",
+        "version": "latest"
+      }
+    },
+    {
+      "agentId": "michael_mauboussin",
+      "displayName": "Michael Mauboussin",
+      "role": "analyst",
+      "personaGroup": "expectations_probabilistic",
+      "status": "active",
+      "provisional": false,
+      "sourcePromptFile": "9AgentesConPersonalidad/michael_mauboussin_agent.md",
+      "foundryAgent": {
+        "name": "TODO_SET_IN_FOUNDRY",
+        "version": "latest"
+      }
+    },
+    {
+      "agentId": "mohamed_el_erian",
+      "displayName": "Mohamed El-Erian",
+      "role": "analyst",
+      "personaGroup": "macro_policy",
+      "status": "active",
+      "provisional": false,
+      "sourcePromptFile": "9AgentesConPersonalidad/mohamed_el_erian_agent.md",
+      "foundryAgent": {
+        "name": "TODO_SET_IN_FOUNDRY",
+        "version": "latest"
+      }
+    },
+    {
+      "agentId": "ray_dalio",
+      "displayName": "Ray Dalio",
+      "role": "analyst",
+      "personaGroup": "big_cycles",
+      "status": "active",
+      "provisional": false,
+      "sourcePromptFile": "9AgentesConPersonalidad/ray_dalio_agent.md",
+      "foundryAgent": {
+        "name": "TODO_SET_IN_FOUNDRY",
+        "version": "latest"
+      }
+    },
+    {
+      "agentId": "ray_dalio2",
+      "displayName": "Ray Dalio 2",
+      "role": "analyst",
+      "personaGroup": "big_cycles",
+      "status": "active",
+      "provisional": true,
+      "sourcePromptFile": "9AgentesConPersonalidad/ray_dalio2_agent.md",
+      "foundryAgent": {
+        "name": "TODO_SET_IN_FOUNDRY",
+        "version": "latest"
+      }
+    },
+    {
+      "agentId": "stanley_druckenmiller",
+      "displayName": "Stanley Druckenmiller",
+      "role": "analyst",
+      "personaGroup": "macro_trading",
+      "status": "active",
+      "provisional": false,
+      "sourcePromptFile": "9AgentesConPersonalidad/stanley_druckenmiller_agent.md",
+      "foundryAgent": {
+        "name": "TODO_SET_IN_FOUNDRY",
+        "version": "latest"
+      }
+    }
+  ],
+  "executionModes": [
+    {
+      "mode": "competitive",
+      "description": "Each analyst runs independently without seeing peer outputs."
+    },
+    {
+      "mode": "cooperative",
+      "description": "Each analyst receives a normalized peer summary before revision."
+    },
+    {
+      "mode": "hybrid",
+      "description": "Competitive first pass plus cooperative revision and orchestrator synthesis."
+    }
+  ],
+  "comparisonTables": [
+    "consensus",
+    "divergence",
+    "unique_insights",
+    "evidence_coverage"
+  ],
+  "exports": [
+    "pdf",
+    "markdown",
+    "docx",
+    "xlsx"
+  ]
+}

@@ -76,3 +76,115 @@ export interface IAgentMetadata {
    */
   starterPrompts?: string[] | null;
 }
+
+// Cohort registry types
+export interface ICohortAgentSummary {
+  agentId: string;
+  displayName: string;
+  role: 'analyst' | 'orchestrator';
+  status: 'active' | 'inactive';
+  provisional?: boolean;
+  personaGroup?: string;
+}
+
+export interface ICohortExecutionMode {
+  mode: string;
+  description: string;
+}
+
+export interface ICohortRegistry {
+  version: string;
+  lastUpdated: string;
+  analystAgents: ICohortAgentSummary[];
+  executionModes: ICohortExecutionMode[];
+}
+
+export interface IAgentAnalysisInput {
+  agentId: string;
+  agentName: string;
+  outputJson: string;
+}
+
+export interface ICohortComparisonRequest {
+  agentResponses: IAgentAnalysisInput[];
+  query?: string;
+  executionMode?: string;
+  contractVersion?: string;
+  conversationId?: string;
+}
+
+export interface IComparisonSummary {
+  consensusPoints: number;
+  divergencePoints: number;
+  uniqueInsights: number;
+  totalCitations: number;
+}
+
+export interface IConsensusRow {
+  statement: string;
+  supportCount: number;
+  supportingAgents: string[];
+}
+
+export interface IDivergenceRow {
+  dimension: string;
+  position: string;
+  supportCount: number;
+  supportingAgents: string[];
+}
+
+export interface IUniqueInsightRow {
+  statement: string;
+  agentId: string;
+  agentName: string;
+}
+
+export interface IEvidenceCoverageRow {
+  agentId: string;
+  agentName: string;
+  citationCount: number;
+  hallazgosCount: number;
+  riesgosCount: number;
+  oportunidadesCount: number;
+  supuestosCount: number;
+  confidence: number;
+}
+
+export interface IComparisonWarning {
+  agentId: string;
+  agentName: string;
+  message: string;
+}
+
+export interface ICohortComparisonResponse {
+  query: string;
+  executionMode: string;
+  contractVersion: string;
+  agentCount: number;
+  summary: IComparisonSummary;
+  consensusTable: IConsensusRow[];
+  divergenceTable: IDivergenceRow[];
+  uniqueInsightsTable: IUniqueInsightRow[];
+  evidenceCoverageTable: IEvidenceCoverageRow[];
+  warnings: IComparisonWarning[];
+}
+
+export interface ICohortAutoRunRequest {
+  message: string;
+  query?: string;
+  executionMode?: string;
+  contractVersion?: string;
+  conversationId?: string;
+}
+
+export interface ICohortAutoRunError {
+  agentId: string;
+  agentName: string;
+  message: string;
+}
+
+export interface ICohortAutoRunResponse {
+  agentResponses: IAgentAnalysisInput[];
+  comparison: ICohortComparisonResponse;
+  errors: ICohortAutoRunError[];
+}

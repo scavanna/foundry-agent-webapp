@@ -9,7 +9,79 @@
   // See: https://code.visualstudio.com/docs/copilot/chat/mcp-servers
   // ============================================
 
+  "inputs": [
+    {
+      "id": "apimSearchKey",
+      "type": "promptString",
+      "description": "APIM subscription key (mcp-search-sub) para el MCP server ema1-v01",
+      "password": true
+    },
+    {
+      "id": "legislacionKey",
+      "type": "promptString",
+      "description": "APIM subscription key (mcp-legislacion-sub) para ema-legislacion-v01",
+      "password": true
+    },
+    {
+      "id": "jurisprudenciaKey",
+      "type": "promptString",
+      "description": "APIM subscription key (mcp-jurisprudencia-sub) para ema-jurisprudencia-v01",
+      "password": true
+    },
+    {
+      "id": "edgarKey",
+      "type": "promptString",
+      "description": "APIM subscription key (mcp-edgar-sub) para ema-edgar-v01",
+      "password": true
+    }
+  ],
+
   "servers": {
+    // ============================================
+    // Azure AI Search via APIM MCP server (Opción X)
+    // ============================================
+    //
+    // MCP server nativo de APIM que expone la API REST "search" como tools.
+    // Tools read-only: Query documents + Lookup document (List indexes excluido).
+    // Auth: header Ocp-Apim-Subscription-Key (subscription mcp-search-sub).
+    // Policy OWASP 4 capas: rate-limit/quota (MCP02), allowlist indexName (MCP05),
+    // trace (MCP08), strip headers (MCP10).
+    //
+    // Server URL: https://apim-scavanna-diag.azure-api.net/ema1-v01/mcp
+    // ============================================
+    "ema1-search": {
+      "type": "http",
+      "url": "https://apim-scavanna-diag.azure-api.net/ema1-v01/mcp",
+      "headers": {
+        "Ocp-Apim-Subscription-Key": "${input:apimSearchKey}"
+      }
+    },
+
+    // ============================================
+    // Legal MCP servers
+    // ============================================
+    "ema-legislacion": {
+      "type": "http",
+      "url": "https://apim-scavanna-diag.azure-api.net/ema-legislacion-v01/mcp",
+      "headers": {
+        "Ocp-Apim-Subscription-Key": "${input:legislacionKey}"
+      }
+    },
+    "ema-jurisprudencia": {
+      "type": "http",
+      "url": "https://apim-scavanna-diag.azure-api.net/ema-jurisprudencia-v01/mcp",
+      "headers": {
+        "Ocp-Apim-Subscription-Key": "${input:jurisprudenciaKey}"
+      }
+    },
+    "ema-edgar": {
+      "type": "http",
+      "url": "https://apim-scavanna-diag.azure-api.net/ema-edgar-v01/mcp",
+      "headers": {
+        "Ocp-Apim-Subscription-Key": "${input:edgarKey}"
+      }
+    },
+
     // ============================================
     // Playwright Browser Automation
     // ============================================

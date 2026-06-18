@@ -56,6 +56,9 @@ WORKDIR /app
 # Copy published .NET API
 COPY --from=backend-builder /app/publish ./
 
+# Copy cohort registry and output contract files required at runtime
+COPY 9AgentesConPersonalidad ./9AgentesConPersonalidad
+
 # Copy built React frontend into wwwroot (ASP.NET static files directory)
 COPY --from=frontend-builder /app/frontend/dist ./wwwroot
 

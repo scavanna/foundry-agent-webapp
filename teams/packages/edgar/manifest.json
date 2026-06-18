@@ -1,0 +1,43 @@
+{
+  "id": "ed3aa9c2-1e29-4112-b26b-b5cd0177f7c3",
+  "name": {
+    "full": "Diagramatica Edgar",
+    "short": "Diag Edgar"
+  },
+  "developer": {
+    "websiteUrl": "https://diagramatica.com",
+    "name": "Diagramatica",
+    "privacyUrl": "https://diagramatica.com/privacy",
+    "termsOfUseUrl": "https://diagramatica.com/terms"
+  },
+  "staticTabs": [
+    {
+      "entityId": "edgar-home",
+      "name": "Diag Edgar",
+      "scopes": [
+        "personal"
+      ],
+      "websiteUrl": "https://ca-web-b5aozwd7s565i.wittymoss-8519a558.eastus.azurecontainerapps.io",
+      "contentUrl": "https://ca-web-b5aozwd7s565i.wittymoss-8519a558.eastus.azurecontainerapps.io"
+    }
+  ],
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "validDomains": [
+    "ca-web-b5aozwd7s565i.wittymoss-8519a558.eastus.azurecontainerapps.io"
+  ],
+  "version": "1.0.1",
+  "manifestVersion": "1.19",
+  "accentColor": "#007A4D",
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.19/MicrosoftTeams.schema.json",
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "description": {
+    "full": "App de Teams para consultas financieras sobre filings y reportes EDGAR.",
+    "short": "Consulta filings y reportes EDGAR"
+  }
+}

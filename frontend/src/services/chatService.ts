@@ -2,6 +2,8 @@ import type { Dispatch } from 'react';
 import type { AppAction } from '../types/appState';
 import type { ConversationSummary, ConversationMessageInfo } from '../types/appState';
 import type { IChatItem } from '../types/chat';
+import type { ICohortComparisonRequest, ICohortComparisonResponse } from '../types/chat';
+import type { ICohortAutoRunRequest, ICohortAutoRunResponse } from '../types/chat';
 import type { AppError } from '../types/errors';
 import { isAppError } from '../types/errors';
 import { trackException } from './telemetry';
@@ -43,6 +45,8 @@ export class ChatService {
   private apiUrl: string;
   private getAccessToken: () => Promise<string | null>;
   private dispatch: Dispatch<AppAction>;
+  private selectedAgentId?: string;
+  private selectedExecutionMode?: string;
   private currentStreamAbort?: AbortController;
   // Flag indicating an intentional user cancellation of the active stream.
   private streamCancelled = false;
@@ -55,6 +59,11 @@ export class ChatService {
     this.apiUrl = apiUrl;
     this.getAccessToken = getAccessToken;
     this.dispatch = dispatch;
+  }
+
+  setExecutionContext(agentId?: string, executionMode?: string): void {
+    this.selectedAgentId = agentId;
+    this.selectedExecutionMode = executionMode;
   }
 
   /**
@@ -138,6 +147,9 @@ export class ChatService {
     return {
       message,
       conversationId,
+      selectedAgentId: this.selectedAgentId || undefined,
+      executionMode: this.selectedExecutionMode || undefined,
+      outputContractVersion: this.selectedAgentId || this.selectedExecutionMode ? '1.0.0' : undefined,
       imageDataUris: imageDataUris.length > 0 ? imageDataUris : undefined,
       fileDataUris: fileDataUris.length > 0 ? fileDataUris : undefined,
     };
@@ -687,6 +699,50 @@ export class ChatService {
     if (!response.ok) {
       throw createAppError(new Error(`Failed to clean up uploaded files: ${response.status}`), 'API');
     }
+    return response.json();
+  }
+
+  /**
+   * Compare multiple cohort analyst outputs and get structured comparison tables.
+   */
+  async compareCohortOutputs(request: ICohortComparisonRequest): Promise<ICohortComparisonResponse> {
+    const token = await this.ensureAuthToken();
+    const response = await fetch(`${this.apiUrl}/agents/cohort/compare`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+      const errorMessage = await parseErrorFromResponse(response);
+      throw createAppError(new Error(`Failed to compare cohort outputs: ${errorMessage}`), getErrorCodeFromResponse(response));
+    }
+
+    return response.json();
+  }
+
+  /**
+   * Execute all active cohort analysts automatically and compare their outputs.
+   */
+  async runCohortAndCompare(request: ICohortAutoRunRequest): Promise<ICohortAutoRunResponse> {
+    const token = await this.ensureAuthToken();
+    const response = await fetch(`${this.apiUrl}/agents/cohort/run`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+      const errorMessage = await parseErrorFromResponse(response);
+      throw createAppError(new Error(`Failed to run cohort: ${errorMessage}`), getErrorCodeFromResponse(response));
+    }
+
     return response.json();
   }
 }

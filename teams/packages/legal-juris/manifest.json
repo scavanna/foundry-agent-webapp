@@ -1,0 +1,43 @@
+{
+  "id": "a8af14e1-b1b6-4556-9c58-a44c0433ffe9",
+  "name": {
+    "full": "Diagramatica Legal y Jurisprudencia",
+    "short": "Diag Legal"
+  },
+  "developer": {
+    "websiteUrl": "https://diagramatica.com",
+    "name": "Diagramatica",
+    "privacyUrl": "https://diagramatica.com/privacy",
+    "termsOfUseUrl": "https://diagramatica.com/terms"
+  },
+  "staticTabs": [
+    {
+      "entityId": "legal-juris-home",
+      "name": "Diag Legal",
+      "scopes": [
+        "personal"
+      ],
+      "websiteUrl": "https://ca-web-rghwq3yh4wjxi.salmonforest-283af6d8.eastus.azurecontainerapps.io",
+      "contentUrl": "https://ca-web-rghwq3yh4wjxi.salmonforest-283af6d8.eastus.azurecontainerapps.io"
+    }
+  ],
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "validDomains": [
+    "ca-web-rghwq3yh4wjxi.salmonforest-283af6d8.eastus.azurecontainerapps.io"
+  ],
+  "version": "1.0.1",
+  "manifestVersion": "1.19",
+  "accentColor": "#0B5CAD",
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.19/MicrosoftTeams.schema.json",
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "description": {
+    "full": "App de Teams para consultas legales con fuentes de legislacion y jurisprudencia.",
+    "short": "Consulta normativa y jurisprudencia"
+  }
+}

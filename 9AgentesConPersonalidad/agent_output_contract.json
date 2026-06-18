@@ -1,0 +1,108 @@
+{
+  "version": "1.0.0",
+  "name": "edgar_agent_standard_output",
+  "description": "Standard comparable output contract for cohort analyst agents.",
+  "requiredFields": [
+    "tesis_principal",
+    "hallazgos_clave",
+    "riesgos",
+    "oportunidades",
+    "supuestos",
+    "confianza_0_100",
+    "evidencia_edgar_citada",
+    "recomendacion"
+  ],
+  "jsonSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "tesis_principal",
+      "hallazgos_clave",
+      "riesgos",
+      "oportunidades",
+      "supuestos",
+      "confianza_0_100",
+      "evidencia_edgar_citada",
+      "recomendacion"
+    ],
+    "properties": {
+      "tesis_principal": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "hallazgos_clave": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      },
+      "riesgos": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      },
+      "oportunidades": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      },
+      "supuestos": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      },
+      "confianza_0_100": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "evidencia_edgar_citada": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "fuente",
+            "seccion",
+            "extracto"
+          ],
+          "properties": {
+            "fuente": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 250
+            },
+            "seccion": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 250
+            },
+            "extracto": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            }
+          }
+        }
+      },
+      "recomendacion": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      }
+    }
+  }
+}

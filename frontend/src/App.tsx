@@ -7,7 +7,7 @@ import { AgentChat } from "./components/AgentChat";
 import { loginRequest } from "./config/authConfig";
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "./hooks/useAuth";
-import type { IAgentMetadata } from "./types/chat";
+import type { IAgentMetadata, ICohortRegistry } from "./types/chat";
 import "./App.css";
 
 function App() {
@@ -16,7 +16,11 @@ function App() {
   const { auth } = useAppState();
   const { getAccessToken } = useAuth();
   const [agentMetadata, setAgentMetadata] = useState<IAgentMetadata | null>(null);
+  const [cohortRegistry, setCohortRegistry] = useState<ICohortRegistry | null>(null);
   const [isLoadingAgent, setIsLoadingAgent] = useState(true);
+  const [isLoadingCohort, setIsLoadingCohort] = useState(true);
+  const [selectedAgentId, setSelectedAgentId] = useState<string>('');
+  const [selectedExecutionMode, setSelectedExecutionMode] = useState<string>('hybrid');
 
   // Wrap fetchAgentMetadata in useCallback to make it stable for the effect
   const fetchAgentMetadata = useCallback(async () => {
@@ -64,9 +68,59 @@ function App() {
     fetchAgentMetadata();
   }, [fetchAgentMetadata]);
 
+  const fetchCohortRegistry = useCallback(async () => {
+    if (auth.status !== 'authenticated') return;
+
+    try {
+      const token = await getAccessToken();
+      const apiUrl = import.meta.env.VITE_API_URL || '/api';
+
+      const response = await fetch(`${apiUrl}/agents/cohort`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const data: ICohortRegistry = await response.json();
+      setCohortRegistry(data);
+
+      // Initialize defaults from server registry.
+      if (!selectedAgentId && data.analystAgents.length > 0) {
+        setSelectedAgentId(data.analystAgents[0].agentId);
+      }
+
+      if (data.executionModes.length > 0 && !data.executionModes.some((m) => m.mode === selectedExecutionMode)) {
+        setSelectedExecutionMode(data.executionModes[0].mode);
+      }
+    } catch (error) {
+      console.error('Error fetching cohort registry:', error);
+      setCohortRegistry({
+        version: 'fallback',
+        lastUpdated: new Date().toISOString().slice(0, 10),
+        analystAgents: [],
+        executionModes: [
+          { mode: 'competitive', description: 'Independent analysis per agent' },
+          { mode: 'cooperative', description: 'Peer-aware revision pass' },
+          { mode: 'hybrid', description: 'Competitive plus cooperative synthesis' }
+        ]
+      });
+    } finally {
+      setIsLoadingCohort(false);
+    }
+  }, [auth.status, getAccessToken, selectedAgentId, selectedExecutionMode]);
+
+  useEffect(() => {
+    fetchCohortRegistry();
+  }, [fetchCohortRegistry]);
+
   return (
     <ErrorBoundary>
-      {auth.status === 'initializing' || isLoadingAgent ? (
+      {auth.status === 'initializing' || isLoadingAgent || isLoadingCohort ? (
         <div className="app-container" style={{ 
           display: 'flex', 
           alignItems: 'center', 
@@ -77,7 +131,7 @@ function App() {
         }}>
           <Spinner size="large" />
           <p style={{ margin: 0 }}>
-            {auth.status === 'initializing' ? 'Preparing your session...' : 'Loading agent...'}
+            {auth.status === 'initializing' ? 'Preparing your session...' : 'Loading agent and cohort...'}
           </p>
         </div>
       ) : (
@@ -91,6 +145,12 @@ function App() {
                   agentDescription={agentMetadata.description || undefined}
                   agentLogo={agentMetadata.metadata?.logo}
                   starterPrompts={agentMetadata.starterPrompts || undefined}
+                  selectedAgentId={selectedAgentId}
+                  selectedExecutionMode={selectedExecutionMode}
+                  cohortAgents={cohortRegistry?.analystAgents || []}
+                  executionModes={cohortRegistry?.executionModes || []}
+                  onSelectedAgentChange={setSelectedAgentId}
+                  onSelectedExecutionModeChange={setSelectedExecutionMode}
                 />
               </div>
             )}

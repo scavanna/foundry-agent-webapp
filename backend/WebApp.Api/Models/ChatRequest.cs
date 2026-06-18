@@ -5,6 +5,18 @@ public record ChatRequest
     public required string Message { get; init; }
     public string? ConversationId { get; init; }
     /// <summary>
+    /// Selected analyst agent id from cohort selector (e.g., "ray_dalio").
+    /// </summary>
+    public string? SelectedAgentId { get; init; }
+    /// <summary>
+    /// Selected execution mode from cohort selector (competitive/cooperative/hybrid).
+    /// </summary>
+    public string? ExecutionMode { get; init; }
+    /// <summary>
+    /// Optional output contract version requested by the client.
+    /// </summary>
+    public string? OutputContractVersion { get; init; }
+    /// <summary>
     /// Base64-encoded image data URIs (e.g., data:image/png;base64,iVBORw0KG...)
     /// Images are sent inline with the message, no file upload needed.
     /// </summary>

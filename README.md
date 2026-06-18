@@ -192,6 +192,17 @@ azd env set AI_AGENT_ID <agent-name>
 
 > 💡 `azd provision` (or `azd up`) automatically regenerates `.env` files and updates RBAC assignments when configuration changes.
 
+### Teams Apps: Update Rule (Org-wide custom apps)
+
+When updating already-published Teams apps (`Diag Legal`, `Diag Edgar`) using new webapp URLs:
+
+1. Regenerate both packages with `deployment/scripts/generate-teams-app-packages.ps1`.
+2. Always increase `-AppPackageVersion` on each update (for example `1.0.1` -> `1.0.2`).
+3. Upload from each app detail page (`New version` -> `Upload file`) instead of `Upload new app`.
+
+If manifest version is not incremented, Teams rejects the update with conflict `409`.
+Detailed runbook: `teams/README.md`.
+
 ## Features
 
 - **AI Chat** — Real-time streaming chat with Azure AI Foundry agents

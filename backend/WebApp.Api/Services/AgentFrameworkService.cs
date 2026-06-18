@@ -7,6 +7,7 @@ using OpenAI.Files;
 using OpenAI.Responses;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Web;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using WebApp.Api.Models;
 
@@ -455,10 +456,19 @@ public class AgentFrameworkService : IDisposable
             {
                 _lastUsage = completedUpdate.Response.Usage;
             }
+            else if (update.GetType().Name.Contains("FailedUpdate", StringComparison.Ordinal))
+            {
+                var failureMessage = DescribeStreamingUpdate(update);
+                _logger.LogError("Stream failed update: {Details}", failureMessage);
+                throw new InvalidOperationException($"Stream failed: {failureMessage}");
+            }
             else if (update is StreamingResponseErrorUpdate errorUpdate)
             {
-                _logger.LogError("Stream error: {Error}", errorUpdate.Message);
-                throw new InvalidOperationException($"Stream error: {errorUpdate.Message}");
+                var errorMessage = string.IsNullOrWhiteSpace(errorUpdate.Message)
+                    ? DescribeStreamingUpdate(errorUpdate)
+                    : errorUpdate.Message;
+                _logger.LogError("Stream error: {Error}", errorMessage);
+                throw new InvalidOperationException($"Stream error: {errorMessage}");
             }
             else
             {
@@ -467,6 +477,39 @@ public class AgentFrameworkService : IDisposable
         }
 
         _logger.LogInformation("Completed streaming for conversation: {ConversationId}", conversationId);
+    }
+
+    private static string DescribeStreamingUpdate(StreamingResponseUpdate update)
+    {
+        try
+        {
+            var type = update.GetType();
+            var details = new List<string>();
+
+            foreach (var propName in new[] { "Message", "Error", "Code", "Reason", "Status", "Details" })
+            {
+                var prop = type.GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
+                if (prop is null || !prop.CanRead)
+                    continue;
+
+                var value = prop.GetValue(update);
+                if (value is null)
+                    continue;
+
+                var rendered = value.ToString();
+                if (!string.IsNullOrWhiteSpace(rendered))
+                    details.Add($"{propName}={rendered}");
+            }
+
+            if (details.Count > 0)
+                return $"{type.Name} ({string.Join(", ", details)})";
+
+            return type.Name;
+        }
+        catch
+        {
+            return update.GetType().Name;
+        }
     }
 
     /// <summary>

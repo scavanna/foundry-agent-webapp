@@ -44,3 +44,9 @@ public record ConversationMessageInfo
     public required string Role { get; init; }
     public required string Content { get; init; }
 }
+
+/// <summary>Request body for PUT /api/conversations/{id}/retention</summary>
+public record RetentionRequest(
+    /// <summary>Retention in days. 0 = keep forever.</summary>
+    int RetentionDays
+);

@@ -13,6 +13,7 @@ param userAssignedIdentityId string = ''
 param oboManagedIdentityClientId string = ''
 param appInsightsConnectionString string = ''
 param appInsightsFrontendConnectionString string = ''
+param cosmosEndpoint string = ''
 
 var abbrs = loadJsonContent('./abbreviations.json')
 
@@ -68,7 +69,15 @@ var oboEnv = !empty(entraBackendClientId) ? [
   }
 ] : []
 
-var containerEnv = concat(baseEnv, miEnv, oboEnv)
+// Cosmos DB endpoint — injected when Cosmos is provisioned
+var cosmosEnv = !empty(cosmosEndpoint) ? [
+  {
+    name: 'COSMOS_ENDPOINT'
+    value: cosmosEndpoint
+  }
+] : []
+
+var containerEnv = concat(baseEnv, miEnv, oboEnv, cosmosEnv)
 
 // Single Container App - serves both frontend and backend
 module webApp './core/host/container-app.bicep' = {

@@ -7,6 +7,271 @@
   position: relative;
 }
 
+.selectorBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: end;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e3e6ea;
+  background: #f7f9fb;
+}
+
+.selectorField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 220px;
+  color: #1f2937;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.selectorInput {
+  appearance: none;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.9rem;
+  color: #0f172a;
+}
+
+.selectorInput:focus {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 1px;
+}
+
+.compareToggleButton {
+  border: 1px solid #1d4ed8;
+  background: #ffffff;
+  color: #1d4ed8;
+  border-radius: 8px;
+  padding: 0.45rem 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.comparisonPanel {
+  border-bottom: 1px solid #e3e6ea;
+  background: #ffffff;
+  padding: 0.9rem 1rem 1.1rem 1rem;
+  max-height: 52vh;
+  overflow: auto;
+}
+
+.comparisonHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.comparisonActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.comparisonTitle {
+  margin: 0;
+  font-size: 1rem;
+  color: #0f172a;
+}
+
+.compareRunButton {
+  border: 1px solid #0f766e;
+  background: #0f766e;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 0.45rem 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.compareAutoRunButton {
+  border: 1px solid #2563eb;
+  background: #2563eb;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 0.45rem 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.compareRunButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.compareAutoRunButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.comparisonQueryField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.8rem;
+  color: #1f2937;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.comparisonQueryInput {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.9rem;
+}
+
+.comparisonInputsGrid {
+  margin-top: 0.8rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.7rem;
+}
+
+.comparisonInputCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: #1f2937;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.comparisonTextarea {
+  min-height: 120px;
+  resize: vertical;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0.45rem 0.55rem;
+  font-size: 0.82rem;
+  font-family: Consolas, 'Courier New', monospace;
+}
+
+.comparisonError {
+  margin-top: 0.65rem;
+  color: #b91c1c;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.comparisonResults {
+  margin-top: 1rem;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.55rem;
+}
+
+.comparisonExportRow {
+  margin: 0.8rem 0 0.2rem 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.summaryCard {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.tableTitle {
+  margin: 0.95rem 0 0.4rem 0;
+  color: #0f172a;
+  font-size: 0.92rem;
+}
+
+.resultTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  background: #ffffff;
+}
+
+.resultTable th,
+.resultTable td {
+  border: 1px solid #e2e8f0;
+  padding: 0.35rem 0.45rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.resultTable th {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.warningsBox {
+  margin-top: 0.75rem;
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  border-radius: 8px;
+  padding: 0.55rem 0.65rem;
+}
+
+.warningsBox p {
+  margin: 0.25rem 0;
+  color: #7f1d1d;
+  font-size: 0.8rem;
+}
+
+.autoRunWarningsBox {
+  margin-top: 0.75rem;
+  border: 1px solid #fde68a;
+  background: #fffbeb;
+  border-radius: 8px;
+  padding: 0.55rem 0.65rem;
+}
+
+.autoRunWarningsBox p {
+  margin: 0.25rem 0;
+  color: #78350f;
+  font-size: 0.8rem;
+}
+
+.synthesisPanel {
+  margin-top: 0.85rem;
+  border: 1px solid #dbe4f0;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  padding: 0.8rem;
+}
+
+.synthesisGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.synthesisCard {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 0.7rem 0.75rem;
+}
+
+.synthesisCardTitle {
+  margin: 0 0 0.45rem 0;
+  font-size: 0.9rem;
+  color: #0f172a;
+}
+
+.synthesisCard p {
+  margin: 0.28rem 0;
+  color: #334155;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
 .mainContent {
   flex: 1;
   display: flex;
