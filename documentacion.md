@@ -150,7 +150,7 @@ Este repositorio reune notas y artefactos de aprendizaje para construir y operar
 	- Exito esperado: se completa stream con eventos usage y done.
 
 ## Comandos de arranque rapido para manana
-- cd C:\Users\scavanna\personal\OneDrive\Github\foundry-agent-webapp
+- cd .
 - az account show --query "{subscription:name,id:id,tenantId:tenantId}" --output table
 - azd env list
 - azd env select scavanna-foundry-secops
